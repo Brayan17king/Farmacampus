@@ -9,5 +9,6 @@ public class Ciudad : BaseEntity
 {
     public string NombreCiudad { get; set; }
     public int IdDepartamentoFk { get; set; }
-    public Departamento Departamento { get; set; }
+    public Departamento Departamentos { get; set; }
+    public ICollection<UbicacionPersona> UbicacionPersonas { get; set; }
 }

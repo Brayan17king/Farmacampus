@@ -7,5 +7,6 @@ namespace Core.Entities;
 
 public class FormaPago : BaseEntity
 {
-
+    public string NombreFormaPago { get; set; }
+    public ICollection<MovimientoInventario> MovimientoInventarios { get; set; }
 }

@@ -7,5 +7,6 @@ namespace Core.Entities;
 
 public class TipoMovimientoInventario : BaseEntity
 {
-
+    public string NombreTipoMovimientoInventario { get; set; }
+    public ICollection<MovimientoInventario> MovimientoInventarios { get; set; }
 }

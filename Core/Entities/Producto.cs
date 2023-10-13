@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace Core.Entities;
 
-public class Presentacion : BaseEntity
+public class Producto : BaseEntityVC
 {
-    public string NombrePresentacion { get; set; }
+    public string NombreProducto { get; set; }
+    public int IdMarcaFk { get; set; }
+    public Marca Marcas { get; set; }
     public ICollection<Inventario> Inventarios { get; set; }
 }
