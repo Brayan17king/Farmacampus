@@ -3,33 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Core.Interfaces
+namespace Core.Interfaces;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        ICiudadRepository Ciudades { get; }
-        IContactoPersonaRepository ContactoPersona { get; }
-        IDepartamentoRepository Departamentos { get; }
-        IDetalleMovimientoInventarioRepository DetalleMovimientoInventarios { get; }
-        IFacturaRepository Facturas { get; }
-        IFormaPagoRepository FormaPagos { get; }
-        IInventarioRepository Inventario { get; }
-        IMarcaRepository Marcas { get; }
-        IMovimientoInventarioRepository MovimientoInventarios { get; }
-        IPaisRepository Paises { get; }
-        IPersonaRepository Personas { get; }
-        IPresentacionRepository Presentaciones { get; }
-        IProductoRepository Productos { get; }
-        IRolPersonaRepository RolPersonas { get; }
+    public ICiudadRepository Ciudades { get; }
+    public IContactoPersonaRepository ContactoPersonas { get; }
+    public IDepartamentoRepository Departamentos { get; }
+    public IDetalleMovimientoInventarioRepository DetalleMovimientoInventarios { get; }
+    public IFacturaRepository Facturas { get; }
+    public IFormaPagoRepository FormaPagos { get; }
+    public IInventarioRepository Inventarios { get; }
+    public IMarcaRepository Marcas { get; }
+    public IMovimientoInventarioRepository MovimientoInventarios { get; }
+    public IPaisRepository Paises { get; }
+    public IPersonaRepository Personas { get; }
+    public IPresentacionRepository Presentaciones { get; }
+    public IProductoRepository Productos { get; }
+    public IRolPersonaRepository RolPersonas { get; }
+    public ITipoContactoRepository TipoContactos { get; }
+    public ITipoDocumentoRepository TipoDocumentos { get; }
+    public ITipoMovimientoInventarioRepository TipoMovimientoInventarios { get; }
+    public ITipoPersonaRepository TipoPersonas { get; }
+    public IUbicacionPersonaRepository UbicacionPersonas { get; }
 
-        ITipoContactoRepository TipoContactos { get; }
-
-        ITipoDocumentoRepository TipoDocumentos { get; }
-
-        ITipoMovimientoInventarioRepository TipoMovimientoInventarios { get; }
-        ITipoPersonaRepository TipoPersonas { get; }
-
-        IUbicacionPersonaRepository UbicacionPersonas { get; }
-        Task<int> SaveAsync();
-    }
+    Task<int> SaveAsync();
 }

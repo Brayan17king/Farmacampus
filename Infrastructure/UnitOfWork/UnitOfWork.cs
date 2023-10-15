@@ -246,10 +246,6 @@ public class UnitOfWork : IUnitOfWork,IDisposable
         }
     }
 
-    public IContactoPersonaRepository ContactoPersona => throw new NotImplementedException();
-
-    public IInventarioRepository Inventario => throw new NotImplementedException();
-
     public Task<int> SaveAsync()
     {
         return _context.SaveChangesAsync();
