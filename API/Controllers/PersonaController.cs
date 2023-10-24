@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class PaisController : BaseController
+public class PersonaController : BaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PaisController(IUnitOfWork unitOfWork, IMapper mapper)
+    public PersonaController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -24,33 +24,38 @@ public class PaisController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
+    public async Task<ActionResult<IEnumerable<PersonaDto>>> Get()
     {
-        var result = await _unitOfWork.Paises.GetAllAsync();
-        return _mapper.Map<List<PaisDto>>(result);
+        var result = await _unitOfWork.Personas.GetAllAsync();
+        return _mapper.Map<List<PersonaDto>>(result);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PaisDto>> Get(int id)
+    public async Task<ActionResult<PersonaDto>> Get(string id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Personas.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        return _mapper.Map<PaisDto>(result);
+        return _mapper.Map<PersonaDto>(result);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Post(PaisDto resultDto)
+    public async Task<ActionResult<PersonaDto>> Post(PersonaDto resultDto)
     {
-        var result = _mapper.Map<Pais>(resultDto);
-        _unitOfWork.Paises.Add(result);
+        var result = _mapper.Map<Persona>(resultDto);
+        if (resultDto.FechaRegistroPersona == DateOnly.MinValue)
+        {
+            resultDto.FechaRegistroPersona = DateOnly.FromDateTime(DateTime.Now);
+            result.FechaRegistroPersona = DateOnly.FromDateTime(DateTime.Now);
+        }
+        _unitOfWork.Personas.Add(result);
         await _unitOfWork.SaveAsync();
         if (result == null)
         {
@@ -64,9 +69,9 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Put(int id, [FromBody] PaisDto resultDto)
+    public async Task<ActionResult<PersonaDto>> Put(string id, [FromBody] PersonaDto resultDto)
     {
-        if (resultDto.Id == 0)
+        if (resultDto.Id == null)
         {
             resultDto.Id = id;
         }
@@ -74,9 +79,14 @@ public class PaisController : BaseController
         {
             return NotFound();
         }
-        var result = _mapper.Map<Pais>(resultDto);
+        var result = _mapper.Map<Persona>(resultDto);
+        if (resultDto.FechaRegistroPersona == DateOnly.MinValue)
+        {
+            resultDto.FechaRegistroPersona = DateOnly.FromDateTime(DateTime.Now);
+            result.FechaRegistroPersona = DateOnly.FromDateTime(DateTime.Now);
+        }
         resultDto.Id = result.Id;
-        _unitOfWork.Paises.Update(result);
+        _unitOfWork.Personas.Update(result);
         await _unitOfWork.SaveAsync();
         return resultDto;
     }
@@ -84,14 +94,14 @@ public class PaisController : BaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Personas.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        _unitOfWork.Paises.Remove(result);
+        _unitOfWork.Personas.Remove(result);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

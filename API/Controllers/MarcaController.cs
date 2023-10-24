@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class PaisController : BaseController
+public class MarcaController : BaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PaisController(IUnitOfWork unitOfWork, IMapper mapper)
+    public MarcaController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -24,33 +24,33 @@ public class PaisController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
+    public async Task<ActionResult<IEnumerable<MarcaDto>>> Get()
     {
-        var result = await _unitOfWork.Paises.GetAllAsync();
-        return _mapper.Map<List<PaisDto>>(result);
+        var result = await _unitOfWork.Marcas.GetAllAsync();
+        return _mapper.Map<List<MarcaDto>>(result);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PaisDto>> Get(int id)
+    public async Task<ActionResult<MarcaDto>> Get(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Marcas.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        return _mapper.Map<PaisDto>(result);
+        return _mapper.Map<MarcaDto>(result);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Post(PaisDto resultDto)
+    public async Task<ActionResult<MarcaDto>> Post(MarcaDto resultDto)
     {
-        var result = _mapper.Map<Pais>(resultDto);
-        _unitOfWork.Paises.Add(result);
+        var result = _mapper.Map<Marca>(resultDto);
+        _unitOfWork.Marcas.Add(result);
         await _unitOfWork.SaveAsync();
         if (result == null)
         {
@@ -64,7 +64,7 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Put(int id, [FromBody] PaisDto resultDto)
+    public async Task<ActionResult<MarcaDto>> Put(int id, [FromBody] MarcaDto resultDto)
     {
         if (resultDto.Id == 0)
         {
@@ -74,9 +74,9 @@ public class PaisController : BaseController
         {
             return NotFound();
         }
-        var result = _mapper.Map<Pais>(resultDto);
+        var result = _mapper.Map<Marca>(resultDto);
         resultDto.Id = result.Id;
-        _unitOfWork.Paises.Update(result);
+        _unitOfWork.Marcas.Update(result);
         await _unitOfWork.SaveAsync();
         return resultDto;
     }
@@ -86,12 +86,12 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Marcas.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        _unitOfWork.Paises.Remove(result);
+        _unitOfWork.Marcas.Remove(result);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

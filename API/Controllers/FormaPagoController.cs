@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class PaisController : BaseController
+public class FormaPagoController : BaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PaisController(IUnitOfWork unitOfWork, IMapper mapper)
+    public FormaPagoController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -24,33 +24,33 @@ public class PaisController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
+    public async Task<ActionResult<IEnumerable<FormaPagoDto>>> Get()
     {
-        var result = await _unitOfWork.Paises.GetAllAsync();
-        return _mapper.Map<List<PaisDto>>(result);
+        var result = await _unitOfWork.FormaPagos.GetAllAsync();
+        return _mapper.Map<List<FormaPagoDto>>(result);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PaisDto>> Get(int id)
+    public async Task<ActionResult<FormaPagoDto>> Get(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.FormaPagos.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        return _mapper.Map<PaisDto>(result);
+        return _mapper.Map<FormaPagoDto>(result);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Post(PaisDto resultDto)
+    public async Task<ActionResult<FormaPagoDto>> Post(FormaPagoDto resultDto)
     {
-        var result = _mapper.Map<Pais>(resultDto);
-        _unitOfWork.Paises.Add(result);
+        var result = _mapper.Map<FormaPago>(resultDto);
+        _unitOfWork.FormaPagos.Add(result);
         await _unitOfWork.SaveAsync();
         if (result == null)
         {
@@ -64,7 +64,7 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Put(int id, [FromBody] PaisDto resultDto)
+    public async Task<ActionResult<FormaPagoDto>> Put(int id, [FromBody] FormaPagoDto resultDto)
     {
         if (resultDto.Id == 0)
         {
@@ -74,9 +74,9 @@ public class PaisController : BaseController
         {
             return NotFound();
         }
-        var result = _mapper.Map<Pais>(resultDto);
+        var result = _mapper.Map<FormaPago>(resultDto);
         resultDto.Id = result.Id;
-        _unitOfWork.Paises.Update(result);
+        _unitOfWork.FormaPagos.Update(result);
         await _unitOfWork.SaveAsync();
         return resultDto;
     }
@@ -86,12 +86,12 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.FormaPagos.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        _unitOfWork.Paises.Remove(result);
+        _unitOfWork.FormaPagos.Remove(result);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

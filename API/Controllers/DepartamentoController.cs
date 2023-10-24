@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class PaisController : BaseController
+public class DepartamentoController : BaseController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PaisController(IUnitOfWork unitOfWork, IMapper mapper)
+    public DepartamentoController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -24,33 +24,33 @@ public class PaisController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
+    public async Task<ActionResult<IEnumerable<DepartamentoDto>>> Get()
     {
-        var result = await _unitOfWork.Paises.GetAllAsync();
-        return _mapper.Map<List<PaisDto>>(result);
+        var result = await _unitOfWork.Departamentos.GetAllAsync();
+        return _mapper.Map<List<DepartamentoDto>>(result);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PaisDto>> Get(int id)
+    public async Task<ActionResult<DepartamentoDto>> Get(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Departamentos.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        return _mapper.Map<PaisDto>(result);
+        return _mapper.Map<DepartamentoDto>(result);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Post(PaisDto resultDto)
+    public async Task<ActionResult<DepartamentoDto>> Post(DepartamentoDto resultDto)
     {
-        var result = _mapper.Map<Pais>(resultDto);
-        _unitOfWork.Paises.Add(result);
+        var result = _mapper.Map<Departamento>(resultDto);
+        _unitOfWork.Departamentos.Add(result);
         await _unitOfWork.SaveAsync();
         if (result == null)
         {
@@ -60,11 +60,11 @@ public class PaisController : BaseController
         return CreatedAtAction(nameof(Post), new { id = resultDto.Id }, resultDto);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaisDto>> Put(int id, [FromBody] PaisDto resultDto)
+    public async Task<ActionResult<DepartamentoDto>> Put(int id, [FromBody] DepartamentoDto resultDto)
     {
         if (resultDto.Id == 0)
         {
@@ -74,9 +74,9 @@ public class PaisController : BaseController
         {
             return NotFound();
         }
-        var result = _mapper.Map<Pais>(resultDto);
+        var result = _mapper.Map<Departamento>(resultDto);
         resultDto.Id = result.Id;
-        _unitOfWork.Paises.Update(result);
+        _unitOfWork.Departamentos.Update(result);
         await _unitOfWork.SaveAsync();
         return resultDto;
     }
@@ -86,12 +86,12 @@ public class PaisController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Paises.GetByIdAsync(id);
+        var result = await _unitOfWork.Departamentos.GetByIdAsync(id);
         if (result == null)
         {
             return NotFound();
         }
-        _unitOfWork.Paises.Remove(result);
+        _unitOfWork.Departamentos.Remove(result);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }
