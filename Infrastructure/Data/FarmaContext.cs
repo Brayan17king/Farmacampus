@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
-public class FarmaciaCampusContext : DbContext
+public class FarmaContext : DbContext
 {
-    public FarmaciaCampusContext(DbContextOptions options) : base(options)
+    public FarmaContext(DbContextOptions options) : base(options)
     {
     }
     // DbSets
