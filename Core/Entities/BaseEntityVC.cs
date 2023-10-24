@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Core.Entities
+namespace Core.Entities;
+
+public class BaseEntityVC
 {
-    public class BaseEntityVC
-    {
-        public string Id { get; set; }
-    }
+    public string Id { get; set; }
 }
