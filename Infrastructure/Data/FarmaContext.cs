@@ -7,12 +7,12 @@ using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
-public class FarmaContext : DbContext
+
+public class FarmaciaCampusContext : DbContext
 {
-    public FarmaContext(DbContextOptions<FarmaContext> options) : base(options)
+    public FarmaciaCampusContext(DbContextOptions options) : base(options)
     {
     }
-
     // DbSets
     public DbSet<Ciudad> Ciudades { get; set; }
     public DbSet<ContactoPersona> ContactoPersonas { get; set; }
