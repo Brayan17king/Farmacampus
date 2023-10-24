@@ -36,8 +36,8 @@ namespace API.Extensions
                 {
                     new RateLimitRule
                     {
-                        Endpoint = "Endpoint",  // Si quiere usar todos ponga *
-                        Period = "NumberSecss", // Periodo de tiempo para hacer peticiones
+                        Endpoint = "*",  // Si quiere usar todos ponga *
+                        Period = "10s", // Periodo de tiempo para hacer peticiones
                         Limit = 2       // Numero de peticiones durante el periodo de tiempo
                     }
                 };
