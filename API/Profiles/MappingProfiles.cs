@@ -8,9 +8,9 @@ using Core.Entities;
 
 namespace API.Profiles;
 
-public class MappingProfiles : Profile
+public   class MappingProfiles : Profile
 {
-    protected MappingProfiles()
+    public MappingProfiles()
     {
         CreateMap<Ciudad,CiudadDto>().ReverseMap();
         CreateMap<ContactoPersona,ContactoPersonaDto>().ReverseMap();
